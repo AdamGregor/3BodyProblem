@@ -90,6 +90,7 @@ def do_animation(positions, t_frames):
         percent = (row_len - 2) / 100
         no_sharps = int(percents * percent + 1 )
         # print(percents, no_sharps)
+        last = True
         for i in range(row_len):
             if i == 0:
                 print('[', end="")
@@ -102,9 +103,11 @@ def do_animation(positions, t_frames):
 
             else:
                 print(".", end="")
+                last = False
         
-        # print(f"Progress: {(frame+1) / t_frames:.1%} ", end='\r')
-
+        if last:
+            plt.close()
+            print()
 
         x_current_1 = p1x_sol[0:frame+1]
         y_current_1 = p1y_sol[0:frame+1]
@@ -154,10 +157,12 @@ def do_animation(positions, t_frames):
 
     # Close figure automatically when animation completes
     #TODO opravit
-    def close_event():
+    def close_event(*args):
         print("tadyyk")
         plt.close(fig)
-
-    ani._stop = lambda *args, **kwargs: (animation.Animation._stop(ani, *args, **kwargs), close_event())
-    # animation = FuncAnimation(fig, update, frames=range(0, t_frames, 5), interval=20, blit=False, repeat = False)
+    
+    ani._stop = lambda *args, **kwargs: (
+        animation.Animation._stop(ani, *args, **kwargs),
+        close_event()
+    )
     plt.show()
