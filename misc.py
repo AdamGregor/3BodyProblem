@@ -1,4 +1,5 @@
-import time
+import ending
+import time, random 
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
@@ -6,6 +7,8 @@ COLORS = [
     "\033[92m",  # Green
     "\033[93m",  # Yellow
     "\033[91m",  # Red
+    "\033[94m",  # Blue
+    "\033[97m"   # White
 ]
 RESET = "\033[0m"
 
@@ -19,7 +22,7 @@ def test_case(test_no, value):
     print(COLORS[0] + "SUCCESFULLY" if value else COLORS[2]+ "INCORRECTLY", RESET)
 
 def send_message():
-    for _ in range(10):
+    for _ in range(3):
         time.sleep(0.2)
         print()
 
@@ -31,6 +34,24 @@ def send_message():
         if(i > len("TRANSMITTING DATA TO ")):
             print(RESET, end="\r")
     print(text)
+
+def render_loading(row_len, sharps):
+    last = True
+    for i in range(row_len):
+        if i == 0:
+            print('[', end="")
+        
+        elif i <= sharps:
+            print(COLORS[1]+"#"+RESET, end="")
+
+        elif i == row_len - 1:
+            print("]", end="\r")
+
+        else:
+            print(".", end="")
+            last = False
+
+    return last
 
 def overall_result(value):
     for _ in range(3):
@@ -47,7 +68,8 @@ def overall_result(value):
         time.sleep(0.5)
         print(" "*len(text), end="\r")
         time.sleep(0.5)
-    print(text)    
+    print(text)
+    time.sleep(0.5)    
     print(sharps())
 
 
@@ -82,28 +104,14 @@ def do_animation(positions, t_frames):
     ax.set_zlabel("z")
     plt.grid()
     plt.legend()
-
-
+    
     def update(frame):
         percents = (frame+1) / t_frames * 100
         row_len = len(sharps())
         percent = (row_len - 2) / 100
         no_sharps = int(percents * percent + 1 )
-        # print(percents, no_sharps)
-        last = True
-        for i in range(row_len):
-            if i == 0:
-                print('[', end="")
-            
-            elif i <= no_sharps:
-                print(COLORS[1]+"#"+RESET, end="")
-
-            elif i == row_len - 1:
-                print("]", end="\r")
-
-            else:
-                print(".", end="")
-                last = False
+        
+        last = render_loading(row_len, no_sharps)
         
         if last:
             plt.close()
@@ -156,7 +164,6 @@ def do_animation(positions, t_frames):
     )
 
     # Close figure automatically when animation completes
-    #TODO opravit
     def close_event(*args):
         print("tadyyk")
         plt.close(fig)
@@ -166,3 +173,49 @@ def do_animation(positions, t_frames):
         close_event()
     )
     plt.show()
+
+def waiting_spin(cycles, text=''):
+    phases = ['|', '/', '-', '\\', '|', '/', '-', '\\']
+    for _ in range(cycles):
+        for sign in phases:
+            print(text + '['+sign+']', end='\r')
+            time.sleep(0.25)
+    print()
+
+def loading_bar(seconds, text):
+    print("\n"+text)
+    
+    percent = seconds/100
+    for i in range(101): 
+        time.sleep(percent)
+        n_sharps = int((len(sharps())-2) * (i/100))
+        render_loading(len(sharps()), n_sharps)
+    print()
+
+def print_alien(rows):
+    glyphs = ["Ξ", "Φ", "Ω", "Ψ", "λ", "¤", "§", "Ø", "∆", "≡", "⊗", "⋆", ' ', ' ']
+    row_size = 60
+
+    for _ in range(rows):
+        row = []
+        for _ in range(row_size):
+            letter = glyphs[random.randrange(len(glyphs))] 
+            if letter == ' ' and len(row) == 0:
+                continue
+            elif letter == '\n':
+                break
+            row += letter
+            print(''.join(row), end='\r')
+            time.sleep(0.01)
+        time.sleep(0.1)
+        print()
+
+def print_ending():
+    for row in ending.text:
+        curr_row = []
+        for letter in row:
+            curr_row += letter
+            print(''.join(curr_row), end="\r")
+            time.sleep(0.05)
+        time.sleep(0.1)
+        print()

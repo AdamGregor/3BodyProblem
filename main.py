@@ -69,10 +69,11 @@ def main():
 
     misc.send_message()
     misc.do_animation(positions, t_frames)
-
-    #TODO Nacitani prijimani zpravy
-    #TODO Vypis mimozemskych znaku
-    #TODO pomaly vypis jednotlivych radku textu 
+    misc.waiting_spin(5, "WAITING FOR RESPONSE")
+    misc.loading_bar(10, "RECIEVING MESSAGE")
+    misc.print_alien(20)
+    misc.loading_bar(3, "DECODING TO ["+ misc.COLORS[4]+"C"+misc.COLORS[2]+"ZE"+misc.COLORS[3]+"CH"+misc.RESET+"]")
+    misc.print_ending()
 
 if __name__ == "__main__":
     main()
