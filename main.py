@@ -23,6 +23,12 @@ import misc
 #     print()
 
 
+class HiddenCursor():
+    def __enter__(self):
+        print("\033[?25l", end="")
+    def __exit__(self, exception_type, exception_value, exception_traceback):
+        print("\033[?25h", end="")
+
 def main():
     #INITIAL SETTING
     G= 1
@@ -76,4 +82,5 @@ def main():
     misc.print_ending()
 
 if __name__ == "__main__":
-    main()
+    with HiddenCursor():
+        main()
