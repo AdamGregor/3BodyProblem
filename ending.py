@@ -23,6 +23,6 @@ text = [
         "",
         "Navždy sbohem,",
         "	navždy dík,",
-        ColorRow("\033[93m", "		Trisolarané"),
+        ColorRow().yellow("		Trisolarané"),
         "",
     ]
