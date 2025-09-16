@@ -1,3 +1,5 @@
+from color_text import ColorRow
+
 text = [	
         "Dane,",
         "",
@@ -21,6 +23,6 @@ text = [
         "",
         "Navždy sbohem,",
         "	navždy dík,",
-        "		\033[93m Trisolarané \033[0m",
+        ColorRow("\033[93m", "		Trisolarané"),
         "",
     ]
