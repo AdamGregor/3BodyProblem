@@ -1,3 +1,4 @@
+from color_text import ColorRow
 import ending
 import time, random 
 import matplotlib.pyplot as plt
@@ -26,14 +27,8 @@ def send_message():
         time.sleep(0.2)
         print()
 
-    text = "TRANSMITTING DATA TO " + COLORS[1] +"TRISOL"+RESET
-
-    for i in range(len(text)):
-        time.sleep(0.25)
-        print(text[0:i], end="\r")
-        if(i > len("TRANSMITTING DATA TO ")):
-            print(RESET, end="\r")
-    print(text)
+    text = ColorRow().t("TRANSMITTING DATA TO ").yellow("TRISOL")
+    text.print_typed(sleep=0.25)
 
 def render_loading(row_len, sharps):
     last = True
